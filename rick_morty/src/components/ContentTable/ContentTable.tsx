@@ -55,7 +55,13 @@ const ContentTable: React.FC<ITableProps> = ({ headers, characters }) => {
                     characters.map((character) => (
                         <TableRow
                             key={character.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }} 
+                            hover = {true}
+                            onClick = {(e) => {
+                                debugger;
+                                console.log(e);
+                            } }
+                        >
                             <TableCell align="left"><img style={imageStyle} src={character.image} /></TableCell>
                             <TableCell component="th" scope="row">{character.name}</TableCell>
                             <TableCell align="left">{character.origin}</TableCell>

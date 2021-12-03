@@ -1,5 +1,5 @@
 import { Pagination } from '@mui/material'
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import ContentTable, { ICharacter } from '../components/ContentTable/ContentTable'
 import { StateContext } from '../store/store';
 
@@ -9,7 +9,7 @@ export const CharacterTable: React.FC = () => {
     const [response, setResponse] = React.useState<ICharacter[] | null>(null);
     const [error, setError] = React.useState<any>(null);
     const [columnsTitle, setColumnsTitle] = React.useState<string[]>([]);
-    const {dispatch, state} = React.useContext(StateContext);
+    const { dispatch, state } = React.useContext(StateContext);
     const baseUrl: string = "https://rickandmortyapi.com/api";
 
     React.useEffect(() => {
@@ -17,11 +17,11 @@ export const CharacterTable: React.FC = () => {
             try {
                 const res = await fetch(baseUrl.concat("/character/?page=" + pageNumber));
                 const json = await res.json();
-                let characters = toCharacters(json) ;
+                let characters = toCharacters(json);
                 setResponse(characters);
-                setColumnsTitle( Object.keys(characters[0]).filter(key => key !== "id"));
-                dispatch({ 
-                    type:"SET_CHARACTERS",
+                setColumnsTitle(Object.keys(characters[0]).filter(key => key !== "id"));
+                dispatch({
+                    type: "SET_CHARACTERS",
                     payload: characters
                 });
             } catch (error) {
@@ -45,7 +45,7 @@ export const CharacterTable: React.FC = () => {
             }
             return temp;
         });
-        
+
         return charactersArr;
     }
 
@@ -58,7 +58,7 @@ export const CharacterTable: React.FC = () => {
     return (
         <>
             <ContentTable characters={state.filteredCharacters} headers={columnsTitle} />
-            <Pagination count={42} onChange={(e,page) => {
+            <Pagination count={42} onChange={(e, page) => {
                 setPageNumber(page);
             }}></Pagination>
         </>

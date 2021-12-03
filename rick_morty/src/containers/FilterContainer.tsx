@@ -8,7 +8,7 @@ import CSS from 'csstype';
 
 export const FilterContainer: React.FC = () => {
     const paddingItem: CSS.Properties = {
-        padding: '1rem',
+        padding: "1rem",
     };
 
     const btnStyle: CSS.Properties = {
