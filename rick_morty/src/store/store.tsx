@@ -1,22 +1,18 @@
 import { createContext, useContext, useReducer } from 'react';
-import { StringLiteralLike } from 'typescript';
-import { resourceLimits } from 'worker_threads';
-import { ICharacter } from '../components/ContentTable/ContentTable';
+
 
 type InitialStateType = {
     searchText: string;
     gender: string;
     status: string;
-    filteredCharacters: ICharacter[];
-    originCharacters: ICharacter[];
+    page: number
 }
 
 const defaultState: InitialStateType = {
     searchText: "",
     gender: "",
     status: "",
-    filteredCharacters: [],
-    originCharacters: []
+    page: 1
 }
 
 export const StateContext = createContext<{
@@ -27,51 +23,38 @@ export const StateContext = createContext<{
     dispatch: () => null
 });
 
-function filtering(character: ICharacter, state: InitialStateType): boolean {
-    let result: boolean = character.gender.toLowerCase().includes(state.gender.toLowerCase())
-        && character.status.toLowerCase().includes(state.status.toLowerCase())
-        && character.name.toLowerCase().includes(state.searchText.toLowerCase());
-    return result;
-}
 
 type ActionType = {
     type: string,
-    payload: string | ICharacter[]
+    payload: string
 }
 
 function stateReducer(prevState: InitialStateType, action: ActionType) {
     let updatedState: InitialStateType = prevState;
-    let updateNeeded: boolean = false;
 
     switch (action.type) {
-        case "SET_CHARACTERS":
-            updatedState = {
-                ...prevState,
-                originCharacters : action.payload as ICharacter[]
-            };
-            updateNeeded = true;
-        break;
+        case "DEC_PAGE":
+            updatedState = { ...prevState, page: --prevState.page };
+            break;
+        case "INC_PAGE":
+            updatedState = { ...prevState, page: ++prevState.page };
+            break;
         case "UPDATE_SEARCH_TEXT":
-            updatedState = { ...prevState, searchText: action.payload as string };
-            updateNeeded = true;
+            updatedState = { ...prevState, searchText: action.payload, page: 1 };
             break;
         case "UPDATE_STATUS":
-            updatedState = { ...prevState, status: action.payload as string};
-            updateNeeded = true;
+            updatedState = { ...prevState, status: action.payload, page: 1 };
             break;
         case "UPDATE_GENDER":
-            updatedState = { ...prevState, gender: action.payload as string };
-            updateNeeded = true;
+            updatedState = { ...prevState, gender: action.payload, page: 1 };
             break;
         case "CLEAR":
             updatedState = {
-                ...prevState,
                 gender: "",
                 status: "",
                 searchText: "",
-                filteredCharacters: prevState.originCharacters,
+                page: 1
             }
-            updateNeeded = true;
             break;
 
         default:
@@ -79,10 +62,7 @@ function stateReducer(prevState: InitialStateType, action: ActionType) {
             break;
 
     }
-    if(updateNeeded){
-        let result = updatedState.originCharacters.filter(character => filtering(character, updatedState));
-        updatedState = { ...updatedState, filteredCharacters: result };
-    }
+
     return (updatedState);
 
 }

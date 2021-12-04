@@ -9,6 +9,8 @@ import Paper from '@mui/material/Paper';
 import CSS from 'csstype';
 import { BaseModal } from '../Modal/BaseModal';
 import { CharacterInfo } from '../CharacterInfo/CharacterInfo';
+import { TableFooter, TablePagination } from '@mui/material';
+import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions';
 
 
 
@@ -29,15 +31,19 @@ interface ITableProps {
 }
 
 
-const ContentTable: React.FC<ITableProps> = ({ headers, characters }) => {
+const ContentTable: React.FC<ITableProps> = ({ headers, characters}) => {
     const [chosenCharacter, SetChosenCharacter] = React.useState<ICharacter | null>(null);
     const [open, setOpen] = React.useState(false);
+
+
     const handleRowClick = (e: any): void => {
         const chosenId = e.target.parentNode.id;
         let chosen = characters.find(character => character.id as number == chosenId);
         if (chosen) SetChosenCharacter(chosen);
         setOpen(true);
     }
+
+    // Avoid a layout jump when reaching the last page with empty rows.
 
     const TableHeader: React.FC = () => {
         return (
@@ -61,36 +67,36 @@ const ContentTable: React.FC<ITableProps> = ({ headers, characters }) => {
             borderRadius: "50%"
         };
         return (
-            <TableBody>
-                {
-                    characters.map((character) => (
-                        <TableRow
-                            key={character.id}
-                            id={`${character.id}`}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            hover={true}
-                            onClick={handleRowClick}
-                        >
-                            <TableCell align="left"><img style={imageStyle} src={character.image} /></TableCell>
-                            <TableCell align="left">{character.name}</TableCell>
-                            <TableCell align="left">{character.origin}</TableCell>
-                            <TableCell align="left">{character.status}</TableCell>
-                            <TableCell align="left">{character.species}</TableCell>
-                            <TableCell align="left">{character.gender}</TableCell>
-                        </TableRow>
-                    ))
-                }
-            </TableBody>
-        );
+            <>
+                {characters.map((character: ICharacter) => (
+                    <TableRow
+                        key={character.id}
+                        id={`${character.id}`}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        hover={true}
+                        onClick={handleRowClick}
+                    >
+                        <TableCell align="left"><img style={imageStyle} src={character.image} /></TableCell>
+                        <TableCell align="left">{character.name}</TableCell>
+                        <TableCell align="left">{character.origin}</TableCell>
+                        <TableCell align="left">{character.status}</TableCell>
+                        <TableCell align="left">{character.species}</TableCell>
+                        <TableCell align="left">{character.gender}</TableCell>
+                    </TableRow>
+                ))}
+            </>
+        )
     }
 
     return (
         <>
             <Paper elevation={3} style={{ margin: "1rem" }}>
                 <TableContainer style={{ maxHeight: "70vh" }} component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <Table stickyHeader sx={{ minWidth: 650 }} aria-label="custom pagination table">
                         <TableHeader />
-                        <Charecters />
+                        <TableBody>
+                            <Charecters />
+                        </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
