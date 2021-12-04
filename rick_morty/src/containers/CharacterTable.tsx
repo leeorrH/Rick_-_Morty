@@ -38,6 +38,7 @@ export const CharacterTable: React.FC = () => {
                 image: character.image,
                 name: character.name,
                 origin: character.origin.name,
+                location : character.location.name,
                 status: character.status,
                 species: character.species,
                 gender: character.gender,

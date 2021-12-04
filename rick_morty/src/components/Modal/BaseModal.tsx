@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 const style = {
@@ -10,26 +9,25 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  borderRadius: "2%",
+  outline: "none"
 };
 
 interface ModalProps {
-  openModal : boolean
+  openModal : boolean;
+  setOpenModal : React.Dispatch<any>;
 }
 
-export const BaseModal: React.FC<ModalProps> = ({children, openModal}) => {
-  const [open, setOpen] = React.useState(openModal);
-  const handleClose = () => setOpen(false);
+export const BaseModal: React.FC<ModalProps> = ({children, openModal , setOpenModal}) => {
+  //const [open, setOpen] = React.useState(openModal);
+  const handleClose = () => setOpenModal(false);
 
   return (
     <div>
       <Modal
-        open={open}
+        open={openModal}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
          {children}
