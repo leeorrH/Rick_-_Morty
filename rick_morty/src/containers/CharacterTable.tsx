@@ -22,13 +22,18 @@ export const CharacterTable: React.FC = () => {
         const fetchData = async () => {
             try {
                 const res = await fetch(baseUrl.concat(`/character/?page=${state.page}&name=${state.searchText}&status=${state.status}&gender=${state.gender}`));
-                const json = await res.json();
-                if(json.info.count > 0){
-                    let characters = toCharacters(json);
-                    setCharacters(characters);
-                    setColumnsTitle(Object.keys(characters[0]).filter(key => key !== "id" && key !== "location"));
-                    setMaxPage(json.info.pages);
-                    setError(false);
+                if(res.status != 404){
+                    const json = await res.json();
+                    if(json.info.count > 0){
+                        let characters = toCharacters(json);
+                        setCharacters(characters);
+                        setColumnsTitle(Object.keys(characters[0]).filter(key => key !== "id" && key !== "location"));
+                        setMaxPage(json.info.pages);
+                        setError(false);
+                    }
+                }
+                else{
+                    setMaxPage(0);
                 }
             } catch (error) {
                 console.error(error as string);
@@ -56,12 +61,9 @@ export const CharacterTable: React.FC = () => {
         return charactersArr;
     }
 
-
-
-
     if (!characters) return (<h2>Loading...</h2>);
 
-    if (error) return (<h2>Error</h2>);
+    if (maxPage == 0) return (<h2>No Results...</h2>);
 
 
 
