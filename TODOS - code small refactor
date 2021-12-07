@@ -1,0 +1,6 @@
+todos : 
+move all const values to a constantData.ts and replace them with enums , import them as enums where ever is needed
+fix the fecth custom hook and use it instead the useEffect in the component
+concat the rick&morty url to concat only the needed queries (base on the current state)
+add disabled property to Btn component as function or boolean => then chance the Button prev and next to use Btn 
+OR change the pagination to use the pagination mui component and update the url and the page with OnClick( (page,event) => { dispatch .... } 
