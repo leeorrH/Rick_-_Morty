@@ -5,14 +5,14 @@ type InitialStateType = {
     searchText: string;
     gender: string;
     status: string;
-    page: number
+    page: number;
 }
 
 const defaultState: InitialStateType = {
     searchText: "",
     gender: "",
     status: "",
-    page: 1
+    page: 1,
 }
 
 export const StateContext = createContext<{
@@ -33,27 +33,24 @@ function stateReducer(prevState: InitialStateType, action: ActionType) {
     let updatedState: InitialStateType = prevState;
 
     switch (action.type) {
-        case "DEC_PAGE":
-            updatedState = { ...prevState, page: --prevState.page };
-            break;
-        case "INC_PAGE":
-            updatedState = { ...prevState, page: ++prevState.page };
+        case "SET_PAGE":
+            updatedState = { ...prevState, page: +action.payload };
             break;
         case "UPDATE_SEARCH_TEXT":
-            updatedState = { ...prevState, searchText: action.payload, page: 1 };
+            updatedState = { ...prevState, searchText: action.payload.toLocaleLowerCase(), page: 1 };
             break;
         case "UPDATE_STATUS":
-            updatedState = { ...prevState, status: action.payload, page: 1 };
+            updatedState = { ...prevState, status: action.payload.toLocaleLowerCase(), page: 1 };
             break;
         case "UPDATE_GENDER":
-            updatedState = { ...prevState, gender: action.payload, page: 1 };
+            updatedState = { ...prevState, gender: action.payload.toLocaleLowerCase(), page: 1 };
             break;
         case "CLEAR":
             updatedState = {
                 gender: "",
                 status: "",
                 searchText: "",
-                page: 1
+                page: 1,
             }
             break;
 

@@ -16,10 +16,10 @@ export const CharacterInfo: React.FC<Props> = ({ characterData }) => {
                 height="250"
             />
             <CardContent>
-                <Typography color="text.secondary" variant="body2">
-                    first appeared : {characterData.origin}
+                <Typography component="div" color="text.secondary" variant="body2">
+                    first appeared : {characterData.episode[0]}
                     <Divider variant="middle" />
-                    last appeared : {characterData.location}
+                    last appeared : {characterData.episode[1]}
                 </Typography>
             </CardContent>
         </Card>

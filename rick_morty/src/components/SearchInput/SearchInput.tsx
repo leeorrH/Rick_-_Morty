@@ -16,7 +16,7 @@ const SearchInput: React.FC<IProps> = ({ placeHolderText }) => {
       type: "UPDATE_SEARCH_TEXT",
       payload: debouncedValue
     });
-  }, [debouncedValue])
+  }, [debouncedValue, dispatch])
 
   React.useEffect(() => {
     setSearchText(state.searchText);

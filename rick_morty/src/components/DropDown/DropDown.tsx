@@ -10,11 +10,11 @@ interface IProps {
 const DropDown: React.FC<IProps> = ({ placeHolderText, options }) => {
 
     const { dispatch, state } = React.useContext(StateContext);
-    const [option, setOption] = React.useState('');
+    const [option, setOption] = React.useState("");
 
     React.useEffect(() => {
         if (!state.gender.length && !state.status.length) {
-            setOption('');
+            setOption("");
         }
     }, [state]);
 
@@ -27,7 +27,6 @@ const DropDown: React.FC<IProps> = ({ placeHolderText, options }) => {
         })
     };
 
-    // need to put the selected item from store ! 
     return (
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">{placeHolderText}</InputLabel>

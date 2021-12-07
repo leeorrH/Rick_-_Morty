@@ -9,8 +9,7 @@ import Paper from '@mui/material/Paper';
 import CSS from 'csstype';
 import { BaseModal } from '../Modal/BaseModal';
 import { CharacterInfo } from '../CharacterInfo/CharacterInfo';
-import { TableFooter, TablePagination } from '@mui/material';
-import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions';
+
 
 
 
@@ -19,7 +18,7 @@ export interface ICharacter {
     image: string,
     name: string;
     origin: string;
-    location: string;
+    episode: string[]
     status: string;
     species: string;
     gender: string;
@@ -42,8 +41,6 @@ const ContentTable: React.FC<ITableProps> = ({ headers, characters}) => {
         if (chosen) SetChosenCharacter(chosen);
         setOpen(true);
     }
-
-    // Avoid a layout jump when reaching the last page with empty rows.
 
     const TableHeader: React.FC = () => {
         return (
@@ -91,7 +88,7 @@ const ContentTable: React.FC<ITableProps> = ({ headers, characters}) => {
     return (
         <>
             <Paper elevation={3} style={{ margin: "1rem" }}>
-                <TableContainer style={{ maxHeight: "70vh" }} component={Paper}>
+                <TableContainer style={{ maxHeight: "62vh" }} component={Paper}>
                     <Table stickyHeader sx={{ minWidth: 650 }} aria-label="custom pagination table">
                         <TableHeader />
                         <TableBody>
